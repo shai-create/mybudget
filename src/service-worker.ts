@@ -1,6 +1,10 @@
 /// <reference lib="webworker" />
 
-declare const self: ServiceWorkerGlobalScope;
+declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: any[] };
+
+// Required by CRA's Workbox InjectManifest plugin
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _precacheManifest = self.__WB_MANIFEST || [];
 
 const CACHE_NAME = 'mybudget-v1';
 const STATIC_ASSETS = [
