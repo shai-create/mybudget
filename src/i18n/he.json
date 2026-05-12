@@ -111,6 +111,38 @@
     "plan_premium": "פרמיום",
     "trial_days_left": "{{days}} ימי ניסיון נותרו"
   },
+  "auth": {
+    "login_title": "ברוך הבא בחזרה",
+    "signup_title": "יצירת חשבון חדש",
+    "login_subtitle": "התחבר לחשבון שלך",
+    "signup_subtitle": "הצטרף למשפחת MyBudget",
+    "email": "אימייל",
+    "email_placeholder": "your@email.com",
+    "password": "סיסמה",
+    "password_placeholder": "לפחות 6 תווים",
+    "confirm_password": "אישור סיסמה",
+    "confirm_password_placeholder": "הזן שוב את הסיסמה",
+    "login_btn": "התחבר",
+    "signup_btn": "הירשם",
+    "google_btn": "התחבר עם Google",
+    "apple_btn": "התחבר עם Apple",
+    "divider": "או",
+    "switch_to_signup": "אין לך חשבון? הירשם",
+    "switch_to_login": "כבר יש לך חשבון? התחבר",
+    "loading": "טוען...",
+    "errors": {
+      "invalid_credentials": "אימייל או סיסמה שגויים",
+      "email_taken": "האימייל הזה כבר רשום",
+      "password_too_short": "הסיסמה חייבת להיות לפחות 6 תווים",
+      "passwords_no_match": "הסיסמאות אינן תואמות",
+      "email_exists_google": "כבר יש חשבון עם האימייל הזה. התחבר עם Google.",
+      "email_required": "יש להזין כתובת אימייל",
+      "password_required": "יש להזין סיסמה",
+      "google_failed": "ההתחברות עם Google נכשלה. נסה שוב.",
+      "apple_failed": "ההתחברות עם Apple נכשלה. נסה שוב.",
+      "general": "אירעה שגיאה. נסה שוב."
+    }
+  },
   "onboarding": {
     "welcome": "ברוך הבא ל-MyBudget",
     "subtitle": "ניהול תקציב חכם, פשוט ובעברית",

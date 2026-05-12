@@ -8,12 +8,13 @@ import Planning from './pages/Planning';
 import Categories from './pages/Categories';
 import Profile from './pages/Profile';
 import Onboarding from './pages/Onboarding';
+import AuthPage from './pages/Auth';
 
-// Guard: redirect to /onboarding if not logged in
+// Guard: redirect to /auth if not logged in
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, loading } = useAuth();
   if (loading) return <div style={{ padding: 32 }}>טוען...</div>;
-  if (!user) return <Navigate to="/onboarding" replace />;
+  if (!user) return <Navigate to="/auth" replace />;
   return <>{children}</>;
 };
 
@@ -32,7 +33,8 @@ const App: React.FC = () => {
       />
       <Routes>
         {/* Public */}
-        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
 
         {/* Protected */}
         <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
@@ -42,7 +44,7 @@ const App: React.FC = () => {
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/auth" replace />} />
       </Routes>
     </BrowserRouter>
   );
