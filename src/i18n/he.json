@@ -1,0 +1,136 @@
+{
+  "nav": {
+    "home": "בית",
+    "transactions": "פעולות",
+    "planning": "תכנון",
+    "categories": "קטגוריות",
+    "profile": "פרופיל"
+  },
+  "screens": {
+    "dashboard": "דשבורד",
+    "transactions": "פעולות",
+    "planning": "תכנון חודשי",
+    "categories": "ניהול קטגוריות",
+    "profile": "פרופיל והגדרות",
+    "onboarding": "ברוכים הבאים"
+  },
+  "buttons": {
+    "save": "שמור",
+    "cancel": "בטל",
+    "delete": "מחק",
+    "add": "הוסף",
+    "edit": "ערוך",
+    "confirm": "אשר",
+    "close": "סגור",
+    "back": "חזרה",
+    "next": "הבא",
+    "done": "סיום",
+    "login": "כניסה",
+    "logout": "יציאה",
+    "signup": "הרשמה",
+    "connect": "חבר"
+  },
+  "status": {
+    "offline": "אין חיבור לאינטרנט",
+    "online": "מחובר",
+    "syncing": "מסנכרן...",
+    "pending_sync": "{{count}} פעולות ממתינות לסנכרון",
+    "sync_warning": "לא בוצע סנכרון במשך 24 שעות",
+    "sync_success": "סנכרון הושלם בהצלחה"
+  },
+  "errors": {
+    "general": "אירעה שגיאה. נסה שוב.",
+    "network": "בעיית חיבור לאינטרנט.",
+    "auth": "שגיאת אימות. נסה להתחבר מחדש.",
+    "not_found": "הפריט לא נמצא.",
+    "permission": "אין לך הרשאה לבצע פעולה זו.",
+    "required_field": "שדה חובה",
+    "invalid_amount": "סכום לא תקין",
+    "invalid_date": "תאריך לא תקין"
+  },
+  "success": {
+    "transaction_added": "הפעולה נוספה בהצלחה",
+    "transaction_updated": "הפעולה עודכנה בהצלחה",
+    "transaction_deleted": "הפעולה נמחקה",
+    "budget_saved": "התקציב נשמר",
+    "category_saved": "הקטגוריה נשמרה",
+    "profile_saved": "הפרופיל נשמר"
+  },
+  "dashboard": {
+    "balance": "יתרה",
+    "income": "הכנסות",
+    "expenses": "הוצאות",
+    "forecast": "תחזית",
+    "this_month": "החודש",
+    "goal": "יעד",
+    "streak": "רצף ימים",
+    "days": "ימים"
+  },
+  "transactions": {
+    "title": "פעולות",
+    "add": "פעולה חדשה",
+    "income": "הכנסה",
+    "expense": "הוצאה",
+    "transfer": "העברה",
+    "amount": "סכום",
+    "name": "תיאור",
+    "date": "תאריך",
+    "category": "קטגוריה",
+    "note": "הערה",
+    "recurring": "קבועה",
+    "status_completed": "בוצע",
+    "status_pending": "עתידי",
+    "no_transactions": "אין פעולות עדיין"
+  },
+  "planning": {
+    "title": "תכנון חודשי",
+    "planned": "מתוכנן",
+    "actual": "בפועל",
+    "remaining": "נותר",
+    "over_budget": "חריגה",
+    "no_budget": "לא הוגדר תקציב"
+  },
+  "categories": {
+    "income": "הכנסות",
+    "expense": "הוצאות",
+    "investment": "השקעות וחסכונות",
+    "add_category": "קטגוריה חדשה",
+    "archive": "ארכב",
+    "archived": "בארכיון",
+    "no_categories": "אין קטגוריות"
+  },
+  "profile": {
+    "nickname": "כינוי",
+    "currency": "מטבע",
+    "language": "שפה",
+    "notifications": "התראות",
+    "subscription": "מנוי",
+    "dark_mode": "מצב כהה",
+    "plan_free": "חינמי",
+    "plan_lite": "לייט",
+    "plan_premium": "פרמיום",
+    "trial_days_left": "{{days}} ימי ניסיון נותרו"
+  },
+  "onboarding": {
+    "welcome": "ברוך הבא ל-MyBudget",
+    "subtitle": "ניהול תקציב חכם, פשוט ובעברית",
+    "step1": "מה השם שלך?",
+    "step2": "מהו המטרה הפיננסית שלך?",
+    "step3": "מה הניסיון שלך בניהול תקציב?",
+    "lets_start": "בוא נתחיל"
+  },
+  "months": {
+    "1": "ינואר",
+    "2": "פברואר",
+    "3": "מרץ",
+    "4": "אפריל",
+    "5": "מאי",
+    "6": "יוני",
+    "7": "יולי",
+    "8": "אוגוסט",
+    "9": "ספטמבר",
+    "10": "אוקטובר",
+    "11": "נובמבר",
+    "12": "דצמבר"
+  }
+}
