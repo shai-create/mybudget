@@ -16,12 +16,6 @@ const GoogleIcon: React.FC = () => (
   </svg>
 );
 
-const AppleIcon: React.FC = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.08 1.21-2.06 3.61.03 2.86 2.51 3.81 2.54 3.82-.03.07-.39 1.35-1.23 2.69M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-  </svg>
-);
-
 const AuthPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -31,7 +25,7 @@ const AuthPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [oauthLoading, setOauthLoading] = useState<'google' | 'apple' | null>(null);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const getSupabaseError = (message: string): string => {
     if (message.includes('Invalid login credentials') || message.includes('invalid_credentials')) {
@@ -103,7 +97,6 @@ const AuthPage: React.FC = () => {
     } catch (err: any) {
       const msg = err?.message ?? '';
       if (msg.includes('already registered') || msg.includes('already been registered')) {
-        // Check if linked to Google
         toast.error(t('auth.errors.email_exists_google'));
       } else {
         toast.error(getSupabaseError(msg));
@@ -113,23 +106,19 @@ const AuthPage: React.FC = () => {
     }
   };
 
-  const handleOAuth = async (provider: 'google' | 'apple') => {
-    setOauthLoading(provider);
+  const handleGoogleAuth = async () => {
+    setGoogleLoading(true);
     try {
       const { error } = await supabase.auth.signInWithOAuth({
-        provider,
+        provider: 'google',
         options: {
           redirectTo: `${window.location.origin}/onboarding`,
         },
       });
       if (error) throw error;
-    } catch (err: any) {
-      toast.error(
-        provider === 'google'
-          ? t('auth.errors.google_failed')
-          : t('auth.errors.apple_failed')
-      );
-      setOauthLoading(null);
+    } catch {
+      toast.error(t('auth.errors.google_failed'));
+      setGoogleLoading(false);
     }
   };
 
@@ -157,34 +146,20 @@ const AuthPage: React.FC = () => {
           {mode === 'login' ? t('auth.login_subtitle') : t('auth.signup_subtitle')}
         </p>
 
-        {/* OAuth Buttons */}
+        {/* Google OAuth */}
         <div className="auth-oauth">
           <button
             type="button"
             className="auth-oauth-btn"
-            onClick={() => handleOAuth('google')}
-            disabled={loading || oauthLoading !== null}
+            onClick={handleGoogleAuth}
+            disabled={loading || googleLoading}
           >
-            {oauthLoading === 'google' ? (
+            {googleLoading ? (
               <span className="auth-spinner" />
             ) : (
               <GoogleIcon />
             )}
             <span>{t('auth.google_btn')}</span>
-          </button>
-
-          <button
-            type="button"
-            className="auth-oauth-btn auth-oauth-btn--apple"
-            onClick={() => handleOAuth('apple')}
-            disabled={loading || oauthLoading !== null}
-          >
-            {oauthLoading === 'apple' ? (
-              <span className="auth-spinner auth-spinner--white" />
-            ) : (
-              <AppleIcon />
-            )}
-            <span>{t('auth.apple_btn')}</span>
           </button>
         </div>
 
@@ -242,7 +217,7 @@ const AuthPage: React.FC = () => {
           <button
             type="submit"
             className="auth-submit-btn"
-            disabled={loading || oauthLoading !== null}
+            disabled={loading || googleLoading}
           >
             {loading ? (
               <><span className="auth-spinner auth-spinner--white" />{t('auth.loading')}</>
