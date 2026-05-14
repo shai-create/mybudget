@@ -299,7 +299,11 @@ const Transactions: React.FC = () => {
         payload.installment_number  = installmentNumber;
       }
 
+      console.log('[Save] payload =', JSON.stringify(payload, null, 2));
+      console.log('[Save] user.id =', user.id, '| account =', primaryAccountId);
+
       const { error } = await supabase.from('transactions').insert(payload);
+      console.log('[Save] insert result — error:', error);
       if (error) throw error;
 
       toast.success(t('success.transaction_added'));
