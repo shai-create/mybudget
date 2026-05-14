@@ -106,7 +106,18 @@
     "recurring": "קבועה",
     "status_completed": "בוצע",
     "status_pending": "עתידי",
-    "no_transactions": "אין פעולות עדיין"
+    "no_transactions": "אין פעולות עדיין",
+    "save": "שמור פעולה",
+    "add_first": "הוסף את הפעולה הראשונה",
+    "search_placeholder": "שם הפעולה (אופציונלי)",
+    "income_subtype": "סוג הכנסה",
+    "installments": "תשלומים",
+    "installments_total": "מספר תשלומים",
+    "installment_number": "תשלום מספר",
+    "is_recurring": "קבועה / חוזרת",
+    "future_date_note": "📅 תאריך עתידי — הפעולה תסומן כ'עתידי'",
+    "delete_msg": "הפעולה נמחקה",
+    "delete_undo": "בטל"
   },
   "planning": {
     "title": "תכנון חודשי",

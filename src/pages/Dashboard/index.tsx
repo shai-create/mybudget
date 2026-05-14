@@ -468,7 +468,7 @@ const Dashboard: React.FC = () => {
       {/* ── FAB ── */}
       <button
         className="db-fab"
-        onClick={() => navigate('/transactions')}
+        onClick={() => navigate('/transactions', { state: { showForm: true } })}
         aria-label={t('dashboard.add_transaction')}
       >
         +
