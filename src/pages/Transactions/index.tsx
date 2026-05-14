@@ -50,7 +50,7 @@ interface TxRow {
   type: TxType;
   date: string;
   status: string;
-  recurring: boolean | null;
+  is_recurring: boolean | null;
   categories: { name: string; icon: string | null } | null;
 }
 
@@ -163,7 +163,7 @@ const Transactions: React.FC = () => {
   const fetchList = useCallback(async (accId: string) => {
     const { data } = await supabase
       .from('transactions')
-      .select('id, name, amount, type, date, status, recurring, categories(name, icon)')
+      .select('id, name, amount, type, date, status, is_recurring, categories(name, icon)')
       .eq('account_id', accId)
       .order('date', { ascending: false })
       .limit(100);
@@ -174,14 +174,47 @@ const Transactions: React.FC = () => {
 
   const fetchAccountAndList = useCallback(async () => {
     if (!user) return;
-    const { data: acc } = await supabase
+
+    // 1. Try primary account
+    let accId: string | null = null;
+    const { data: primary } = await supabase
       .from('accounts')
       .select('id')
       .eq('user_id', user.id)
       .eq('is_primary', true)
-      .single();
+      .maybeSingle();                    // ← no 406 when 0 rows
 
-    const accId = acc?.id ?? null;
+    if (primary?.id) {
+      accId = primary.id;
+    } else {
+      // 2. Fall back to any account for this user
+      const { data: any_ } = await supabase
+        .from('accounts')
+        .select('id')
+        .eq('user_id', user.id)
+        .limit(1)
+        .maybeSingle();
+
+      if (any_?.id) {
+        accId = any_.id;
+      } else {
+        // 3. No account at all — create one automatically
+        const { data: created } = await supabase
+          .from('accounts')
+          .insert({
+            user_id:    user.id,
+            name:       'חשבון ראשי',
+            type:       'personal',
+            balance:    0,
+            is_primary: true,
+            currency:   'ILS',
+          })
+          .select('id')
+          .maybeSingle();
+        accId = created?.id ?? null;
+      }
+    }
+
     setPrimaryAccountId(accId);
     if (accId) await fetchList(accId);
     else setLoadingList(false);
@@ -656,7 +689,7 @@ const Transactions: React.FC = () => {
                         {t('transactions.status_pending')}
                       </span>
                     )}
-                    {tx.recurring && (
+                    {tx.is_recurring && (
                       <span className="tx-item-badge tx-item-badge--recurring">
                         {t('transactions.recurring')}
                       </span>

@@ -118,13 +118,13 @@ const Dashboard: React.FC = () => {
         .single();
       if (ud) setNickname(ud.nickname ?? '');
 
-      // 2 — primary account (balance + id)
+      // 2 — primary account (balance + id); maybeSingle avoids 406 if missing
       const { data: acc } = await supabase
         .from('accounts')
         .select('id, balance')
         .eq('user_id', user.id)
         .eq('is_primary', true)
-        .single();
+        .maybeSingle();
 
       const accountId  = acc?.id   ?? null;
       const bal        = Number(acc?.balance ?? 0);
