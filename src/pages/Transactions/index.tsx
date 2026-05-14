@@ -128,11 +128,7 @@ const Transactions: React.FC = () => {
   const cameFromDashboard = useRef(false);
 
   useLayoutEffect(() => {
-    console.log('[Transactions] useLayoutEffect fired');
-    console.log('[Transactions] location.state =', location.state);
-    console.log('[Transactions] showForm flag =', (location.state as any)?.showForm);
     if ((location.state as any)?.showForm === true) {
-      console.log('[Transactions] → opening form');
       setShowForm(true);
       cameFromDashboard.current = true;
       window.history.replaceState({}, document.title);
@@ -281,19 +277,23 @@ const Transactions: React.FC = () => {
       const status    = txDate > todayStr() ? 'pending' : 'completed';
       const finalName = txName.trim() || (txType === 'income' ? 'הכנסה' : txType === 'investment' ? 'השקעה' : 'הוצאה');
 
+      // DB TransactionType = 'income' | 'expense' | 'transfer' — no 'investment'
+      // Investment is stored as expense; category type distinguishes it on read
+      const dbType = txType === 'investment' ? 'expense' : txType;
+
       const payload: Record<string, any> = {
-        user_id:    user.id,
-        account_id: primaryAccountId,
-        amount:     numAmount,
-        name:       finalName,
-        date:       txDate,
-        type:       txType,
+        user_id:      user.id,
+        account_id:   primaryAccountId,
+        amount:       numAmount,
+        name:         finalName,
+        date:         txDate,
+        type:         dbType,       // ← mapped, never 'investment'
         status,
-        recurring:  isRecurring,
+        is_recurring: isRecurring,  // ← correct column name (was 'recurring')
       };
 
-      if (categoryId)                      payload.category_id       = categoryId;
-      if (txType === 'income')             payload.income_subtype    = incomeSubtype;
+      if (categoryId)           payload.category_id      = categoryId;
+      if (txType === 'income')  payload.income_subtype   = incomeSubtype;
       if (showInstallments) {
         payload.installments_total  = installmentsTotal;
         payload.installment_number  = installmentNumber;
@@ -462,17 +462,25 @@ const Transactions: React.FC = () => {
           )}
         </div>
 
-        {/* Type selector */}
-        <div className="tx-type-row">
-          {TX_TYPES.map(type => (
-            <button
-              key={type.id}
-              className={`tx-type-btn tx-type-btn--${type.id}${txType === type.id ? ' tx-type-active' : ''}`}
-              onClick={() => { setTxType(type.id); setCategoryId(null); }}
-            >
-              {type.label}
-            </button>
-          ))}
+        {/* Type selector + Date row — always visible, no scrolling needed */}
+        <div className="tx-type-date-row">
+          <div className="tx-type-pills">
+            {TX_TYPES.map(type => (
+              <button
+                key={type.id}
+                className={`tx-type-btn tx-type-btn--${type.id}${txType === type.id ? ' tx-type-active' : ''}`}
+                onClick={() => { setTxType(type.id); setCategoryId(null); }}
+              >
+                {type.label}
+              </button>
+            ))}
+          </div>
+          <input
+            type="date"
+            className="tx-date-input"
+            value={txDate}
+            onChange={e => setTxDate(e.target.value)}
+          />
         </div>
 
         {/* Category grid */}
@@ -510,19 +518,8 @@ const Transactions: React.FC = () => {
           </div>
         )}
 
-        {/* Details card (date, toggles) */}
+        {/* Toggles card (installments + recurring) */}
         <div className="tx-details-card">
-          {/* Date */}
-          <div className="tx-detail-row">
-            <span className="tx-detail-label">{t('transactions.date')}</span>
-            <input
-              type="date"
-              className="tx-date-input"
-              value={txDate}
-              onChange={e => setTxDate(e.target.value)}
-            />
-          </div>
-
           {/* Installments toggle */}
           <div className="tx-detail-row">
             <span className="tx-detail-label">{t('transactions.installments')}</span>
@@ -561,8 +558,8 @@ const Transactions: React.FC = () => {
             </div>
           )}
 
-          {/* Recurring toggle (only for expense/transfer) */}
-          {(txType === 'expense' || txType === 'transfer') && (
+          {/* Recurring toggle (only for expense/transfer/investment) */}
+          {txType !== 'income' && (
             <div className="tx-detail-row">
               <span className="tx-detail-label">{t('transactions.is_recurring')}</span>
               <button

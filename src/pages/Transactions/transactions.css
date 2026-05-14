@@ -146,13 +146,15 @@
   cursor: pointer;
   padding: 6px;
   color: var(--color-text-muted);
-  opacity: 0;
+  opacity: 0.35;
   font-size: 15px;
   transition: opacity 0.15s, color 0.15s;
   display: flex;
   align-items: center;
+  -webkit-tap-highlight-color: transparent;
 }
 
+.tx-item-delete:hover,
 .tx-item:hover .tx-item-delete { opacity: 1; color: var(--color-danger); }
 
 /* ---------- Empty State ---------- */
@@ -433,6 +435,19 @@
 .tx-suggestion-icon { font-size: 16px; flex-shrink: 0; }
 .tx-suggestion-name { flex: 1; }
 .tx-suggestion-hint { font-size: 12px; color: var(--color-text-muted); }
+
+/* ---------- Type + Date combined row ---------- */
+.tx-type-date-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 20px 0;
+}
+
+.tx-type-pills {
+  display: flex;
+  gap: 8px;
+}
 
 /* ---------- Type Selector ---------- */
 .tx-type-row {
